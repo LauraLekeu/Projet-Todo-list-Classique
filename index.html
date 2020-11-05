@@ -5,29 +5,38 @@
 		<title>VanillaJS • TodoMVC</title>
 		<link rel="stylesheet" href="css/base.css">
 		<link rel="stylesheet" href="css/index.css">
+		<link rel="stylesheet" href="css/app.css"> <!-- Nouveau css -->
 	</head>
 	<body>
+
 		<section class="todoapp">
+
 			<header class="header">
 				<h1>todos</h1>
 				<input class="new-todo" placeholder="What needs to be done?" autofocus>
 			</header>
+
 			<section class="main">
 				<input id="toggle-all" class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
+
 				<ul class="todo-list">
-					<li data-id="1" class="">
+
+					<li data-id="1" class="listItem">
 						<input class="toggle" type="checkbox" />
 						<label>Tâche 1</label>
 						<button class="destroy"></button>
 					</li>
+
 					<li data-id="2" class="completed">
 						<input class="toggle" type="checkbox" checked="checked" />
 						<label>Tâche 2</label>
 						<button class="destroy"></button>
 					</li>
+
 				</ul>
 			</section>
+
 			<footer class="footer">
 				<span class="todo-count"><strong>1</strong> items left</span>
 				<ul class="filters">
@@ -43,7 +52,9 @@
 				</ul>
 				<button class="clear-completed">Clear completed</button>
 			</footer>
+
 		</section>
+
 		<footer class="info">
 			<p>Double-click to edit a todo</p>
 			<p>Created by <a href="http://twitter.com/oscargodson">Oscar Godson</a></p>
