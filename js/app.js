@@ -38,7 +38,7 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
     // Lancement des fonctions après avoir ajouté une nouvelle tâche
     displayNotCompleted();  // Compter les tâches
     activerCheckboxes();    // Pouvoir activer les nouvelles checkboxes
-    activerModification();  // Pouvoir modifier les nouvelles tâches
+    activerInput();  // Pouvoir modifier les nouvelles tâches
   }
 
 
@@ -63,13 +63,25 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
 
 
 /**
-* [MODIFIER LE TEXTE D'UNE TÂCHE]
+* [MODIFIER UNE TÂCHE : INPUT]
 * @param  {[type]} tache [description]
 * @return {[type]}       [description]
 */
   function editItem(tache) {
-    const newValue = tache.querySelector('label').innerText;
-    tache.querySelector('label').innerHTML = ` <input type="texte" value="${newValue}" class="new-todo" /> ` ;
+    const value = tache.querySelector('label').innerText;   // Correspond au li
+    tache.querySelector('label').innerHTML = ` <input type="text" value="${value}" class="new-todo modif" /> ` ;
+    tache.querySelector('label input').focus(); // Mettre le curseur dans l'input
+    activerModification();
+  }
+
+
+/**
+* [MODIFIER UNE TÂCHE : UPDATE]
+* @param  {[type]} tacheModifiee [description]
+* @return {[type]}               [description]
+*/
+  function updateItem(tacheModifiee) {
+    tacheModifiee.querySelector('label').innerText = tacheModifiee.querySelector('label > input').value;  // Chercher la value de l'input qui est enfant direct du label
   }
 
 
@@ -97,15 +109,34 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
   }
 
 
-  // Double cliquer sur une tâche non terminée pour la modifier (.listItem:not(.completed))
-  function activerModification() {
-    const tachesNonCompete = listeTaches.querySelectorAll('.listItem:not(.completed)');
+  // Double cliquer sur une tâche non terminée pour la modifier (.listItem:not(.completed) label)
+  function activerInput() {
+    const tachesNonCompete = listeTaches.querySelectorAll('.listItem:not(.completed) label');
     for (let tacheNonCompete of tachesNonCompete) {
       tacheNonCompete.ondblclick = function() {
-        editItem(this);
+        editItem(this.closest('li'));
       }
     }
   }
+
+
+  // Appuyer sur la touche "Enter" / Perdre le focus de l'input après avoir modifié la tâche
+  function activerModification() {
+    const editIputs = document.querySelectorAll('.modif');
+    for (let editIput of editIputs) {
+      editIput.onkeyup = function(e) {
+        if (e.keyCode === 13) {
+          updateItem(this.closest('li'));
+        }
+      }
+      editIput.onblur = function() { // Onblur = quand l'élément perd le focus
+          updateItem(this.closest('li'));
+      }
+    }
+  }
+
+
+
 
 
 /* -----------------------------------------------------------------------------
@@ -113,7 +144,7 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
 -------------------------------------------------------------------------------- */
   displayNotCompleted(); // Compter les tâches
   activerCheckboxes();   // Pouvoir activer les checkboxes
-  activerModification(); // Pouvoir modifier une tâche
+  activerInput(); // Pouvoir modifier une tâche
 
 
 
