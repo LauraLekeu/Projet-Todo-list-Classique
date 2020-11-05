@@ -15,9 +15,9 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
 -------------------------------------------------------------------------------- */
 
 /**
- * [AJOUT D'UNE TÂCHE]
- * @param {[type]} nouvelleTache [description]
- */
+* [AJOUT D'UNE TÂCHE]
+* @param {[type]} nouvelleTache [description]
+*/
   function addItem(nouvelleTache) {
     // Créer un nouveau li:
     const newLi = document.createElement('li');
@@ -35,26 +35,37 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
     });
     // Vider le champ de texte (newTacheInput)
     nouvelleTache.value = '';
-
-    // Lancer des fonctions
-    displayNotCompleted();  // Compteur de tâches
+    // Lancement des fonctions après avoir ajouté une nouvelle tâche
+    displayNotCompleted();  // Compter les tâches
+    activerCheckboxes();    // Pouvoir activer les nouvelles checkboxes
   }
+
 
 /**
- * [COMPTEUR DES TÂCHES RESTANTES]
- * @return {[type]} [description]
- */
+* [COMPTEUR DES TÂCHES RESTANTES]
+* @return {[type]} [description]
+*/
   function displayNotCompleted() {
     compteurTaches.innerText = listeTaches.querySelectorAll('li:not(.completed)').length; // selectionner tous les li qui n'ont pas de classe completed
-
   }
+
+
+/**
+* [BASCULER ENTRE L'AJOUT ET LA SUPRESSION D'UN NOM DE CLASSE]
+* @return {[type]} [description]
+*/
+  function toggleItem(tache) {
+    tache.classList.toggle('completed')  // Correspond au li
+    displayNotCompleted(); // Compter le nombre de tâche restantes
+  }
+
 
 
 /* -----------------------------------------------------------------------------
       CAPTURE DES EVENEMENTS
 -------------------------------------------------------------------------------- */
 
-// Appuyer sur la touche "Enter" pour ajouter la new tâche
+  // Appuyer sur la touche "Enter" pour ajouter la new tâche
   newTacheInput.addEventListener('keyup', function(e){
     if (e.keyCode === 13) {
       addItem(this); //
@@ -62,13 +73,22 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
   });
 
 
+  // Cliquer sur une checkbox quand la tâche est terminée
+  function activerCheckboxes() {
+    const toggleInputs = document.querySelectorAll('.toggle'); // Selectionner les classes toggle
+    for ( let toggleInput of toggleInputs) {
+      toggleInput.onclick = function() {
+        toggleItem(this.closest('li'));
+      }
+    }
+  }
 
 
 /* -----------------------------------------------------------------------------
       LANCEMENT DE FONCTIONS AU CHARGEMENT DE LA PAGE
 -------------------------------------------------------------------------------- */
-  displayNotCompleted();
-
+  displayNotCompleted(); // Compter les tâches
+  activerCheckboxes();   // Pouvoir activer les checkboxes
 
 
 
