@@ -38,6 +38,7 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
     // Lancement des fonctions après avoir ajouté une nouvelle tâche
     displayNotCompleted();  // Compter les tâches
     activerCheckboxes();    // Pouvoir activer les nouvelles checkboxes
+    activerModification();  // Pouvoir modifier les nouvelles tâches
   }
 
 
@@ -52,11 +53,23 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
 
 /**
 * [BASCULER ENTRE L'AJOUT ET LA SUPRESSION D'UN NOM DE CLASSE]
-* @return {[type]} [description]
+* @param  {[type]} tache [description]
+* @return {[type]}       [description]
 */
   function toggleItem(tache) {
     tache.classList.toggle('completed')  // Correspond au li
     displayNotCompleted(); // Compter le nombre de tâche restantes
+  }
+
+
+/**
+* [MODIFIER LE TEXTE D'UNE TÂCHE]
+* @param  {[type]} tache [description]
+* @return {[type]}       [description]
+*/
+  function editItem(tache) {
+    const newValue = tache.querySelector('label').innerText;
+    tache.querySelector('label').innerHTML = ` <input type="texte" value="${newValue}" class="new-todo" /> ` ;
   }
 
 
@@ -73,7 +86,7 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
   });
 
 
-  // Cliquer sur une checkbox quand la tâche est terminée
+  // Cliquer sur une checkbox quand la tâche est terminée (.toggle)
   function activerCheckboxes() {
     const toggleInputs = document.querySelectorAll('.toggle'); // Selectionner les classes toggle
     for ( let toggleInput of toggleInputs) {
@@ -84,12 +97,23 @@ window.onload = function() { // window.onload = Evènement particulier qui s'ass
   }
 
 
+  // Double cliquer sur une tâche non terminée pour la modifier (.listItem:not(.completed))
+  function activerModification() {
+    const tachesNonCompete = listeTaches.querySelectorAll('.listItem:not(.completed)');
+    for (let tacheNonCompete of tachesNonCompete) {
+      tacheNonCompete.ondblclick = function() {
+        editItem(this);
+      }
+    }
+  }
+
+
 /* -----------------------------------------------------------------------------
       LANCEMENT DE FONCTIONS AU CHARGEMENT DE LA PAGE
 -------------------------------------------------------------------------------- */
   displayNotCompleted(); // Compter les tâches
   activerCheckboxes();   // Pouvoir activer les checkboxes
-
+  activerModification(); // Pouvoir modifier une tâche
 
 
 
